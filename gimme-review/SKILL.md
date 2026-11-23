@@ -1,6 +1,6 @@
 ---
 name: gimme-review
-description: Review a GitHub pull request against its Linear ticket and the standards of the codebase. Gives a short summary, the key decisions, issues ranked by severity with blockers marked, and a checklist of the ticket requirements. Use when the user types /gimme-review with a PR URL.
+description: Review a GitHub pull request against its Linear ticket and the standards of the codebase. Gives a short summary, the key decisions, issues ranked by severity with a level and an icon for each, and a checklist of the ticket requirements. Use when the user types /gimme-review with a PR URL.
 argument-hint: <pr-url> [linear-ticket-url-or-id]
 disable-model-invocation: true
 ---
@@ -31,22 +31,36 @@ Write the review in this order.
 1. **What the PR delivers.** Write one sentence, two at most.
 2. **Key decisions.** Give a bullet list of the decisions that the PR makes or implies.
 3. **Issues.** Give a numbered list, ranked by severity, with the most severe issue first.
+    - Start each issue with the icon and the name of its level. See the levels below.
     - Give the file and the line for each issue.
-    - Mark each issue that blocks the merge as `Blocker`.
     - Mark each regression as `Regression`.
     - Mark each divergence as `Divergence`.
 4. **Ticket requirements.** Give a bullet checklist with one line for each requirement. Show if the PR resolves the requirement or not.
+
+### Levels
+
+Give each issue exactly one level.
+
+- 🚨 `Blocker`: the PR must not merge until the author fixes the issue.
+- 🔴 `High`: the issue can cause a failure or wrong data in production.
+- 🟠 `Medium`: the issue is a real defect or a gap, but its effect is limited.
+- 🟡 `Low`: the issue is a small risk or a clean-up that can wait.
+- ⚪️ `Nit`: the issue is a matter of style or convenience.
+
+If the level depends on a fact that you could not check, add `not confirmed` to the level. Then say which fact changes the level, and to which level.
+
+### Example
 
 Example of the format for sections 3 and 4:
 
 ```markdown
 ### Issues
 
-1. **Blocker · Regression** `src/reports/buildReport.ts:88`
+1. 🚨 **Blocker · Regression** `src/reports/buildReport.ts:88`
    The new guard skips each report that has no rows, so an empty report loses its header.
-2. **Divergence** `src/utils/formatDate.ts:12`
+2. 🟠 **Medium · Divergence** `src/utils/formatDate.ts:12`
    The repo keeps date helpers in `src/lib/date/`. This helper is in `src/utils/`.
-3. `tests/reports/buildReport.test.ts:30`
+3. 🟡 **Low** `tests/reports/buildReport.test.ts:30`
    The test name says that the test checks the title, but no assertion reads the title.
 
 ### Ticket requirements
