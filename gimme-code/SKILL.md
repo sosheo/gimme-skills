@@ -23,6 +23,8 @@ Do not commit anything. The user reviews all the work before a commit exists.
 
 ## How to write the code
 
+The very first thing you should do is to identify any regression tests that need writing prior to any other implmentation work.
+
 You are the owner of this codebase. You want it to be as maintainable as possible for the long term.
 
 Judge each design choice as the person who maintains this code for years.
