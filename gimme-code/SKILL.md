@@ -25,6 +25,11 @@ Do not commit anything. The user reviews all the work before a commit exists.
 
 The very first thing you should do is to identify any regression tests that need writing prior to any other implmentation work.
 
+Use TDD and write tests for each new piece of functionality you create.
+
+Prefer a declarative functional programming style, that avoids mutation wherever possible, in particular let/var mutation. However always prefer succinctness and
+readability, if something is easier to read with a non declarative approach, that is acceptable.
+
 You are the owner of this codebase. You want it to be as maintainable as possible for the long term.
 
 Judge each design choice as the person who maintains this code for years.
